@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{25340C42-2304-4AC8-BC49-9CFD7EC897AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAndCuisine.Services.CouponAPI", "CodeAndCuisine.Services.CouponAPI\CodeAndCuisine.Services.CouponAPI.csproj", "{3CDA80AC-0CA2-4B34-9A3D-0D7F82847DD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAndCuisine.Services.CouponAPI", "CodeAndCuisine.Services.CouponAPI\CodeAndCuisine.Services.CouponAPI.csproj", "{3CDA80AC-0CA2-4B34-9A3D-0D7F82847DD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
