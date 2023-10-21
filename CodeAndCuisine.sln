@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{25
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAndCuisine.Services.CouponAPI", "CodeAndCuisine.Services.CouponAPI\CodeAndCuisine.Services.CouponAPI.csproj", "{3CDA80AC-0CA2-4B34-9A3D-0D7F82847DD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAndCuisine.Web", "CodeAndCuisine.Web\CodeAndCuisine.Web.csproj", "{08E53DCE-D9A1-4ED1-AB6E-88BB9ECF467A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAndCuisine.Web", "CodeAndCuisine.Web\CodeAndCuisine.Web.csproj", "{08E53DCE-D9A1-4ED1-AB6E-88BB9ECF467A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
