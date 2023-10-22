@@ -113,7 +113,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public ResponseDto Put([FromBody] Coupon couponDto)
         {
 
@@ -138,7 +138,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ResponseDto Delete(int id)
         {
             try
@@ -163,7 +163,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
 
         private string CreateErrorMessage(Exception ex)
         {
-            return $"{ex.Message} >> {ex.InnerException.Message}";
+            return ex.Message + ex.InnerException == null ? string.Empty : ex.InnerException.Message;
         }
     }
 }

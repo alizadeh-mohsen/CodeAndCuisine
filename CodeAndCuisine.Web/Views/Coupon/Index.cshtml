@@ -1,0 +1,50 @@
+﻿@model IEnumerable<CodeAndCuisine.Web.Models.Dtos.CouponDto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-bg-success">Coupons List</h1>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                CouponCode
+            </th>
+            <th>
+                DiscountAmount
+            </th>
+            <th>
+                MinAmount
+
+            </th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @item.CouponCode
+                </td>
+                <td>
+                    @item.DiscountAmount
+                </td>
+                <td>
+                    @item.MinAmount
+                </td>
+                <td>
+                    <a class="btn btn-info" asp-route-id=@item.CouponId asp-action="Details">Details</a>
+                    <a class="btn btn-warning" asp-route-id=@item.CouponId asp-action ="Edit">Edit</a>
+                    <a class="btn btn-danger" asp-route-id=@item.CouponId asp-action ="Delete">Delete</a>
+                   
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

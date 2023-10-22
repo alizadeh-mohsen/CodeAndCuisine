@@ -1,0 +1,40 @@
+﻿@model CodeAndCuisine.Web.Models.Dtos.CouponDto
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 class="text-bg-info">Details</h1>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            CouponId
+        </dt>
+        <dd class = "col-sm-10">
+           @Model.CouponId
+        </dd>
+        <dt class = "col-sm-2">
+            CouponCode
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.CouponCode
+        </dd>
+        <dt class = "col-sm-2">
+            DiscountAmount
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.DiscountAmount
+        </dd>
+        <dt class = "col-sm-2">
+            MinAmount
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.MinAmount
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id=@Model.CouponId >Edit</a>
+    <a class="btn btn-success" asp-action="index">Back to List</a>
+</div>
