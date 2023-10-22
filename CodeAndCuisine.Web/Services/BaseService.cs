@@ -56,6 +56,12 @@ namespace CodeAndCuisine.Web.Services
 
                 switch (apiResponse.StatusCode)
                 {
+                    case System.Net.HttpStatusCode.OK:
+                        {
+                            var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                            var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                            return apiResponseDto;
+                        }
                     case System.Net.HttpStatusCode.Unauthorized:
                         return new ResponseDto
                         {
@@ -80,13 +86,22 @@ namespace CodeAndCuisine.Web.Services
                             IsSuccess = false,
                             Message = "InternalServerError"
                         };
+                    //case System.Net.HttpStatusCode.:
+                    //    return new ResponseDto
+                    //    {
+                    //        IsSuccess = false,
+                    //        Message = "InternalServerError"
+                    //    };
                     default:
-                        var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
-                        return apiResponseDto;
-                }
+                        return new ResponseDto
+                        {
+                            IsSuccess = false,
+                            Message = apiResponse.ReasonPhrase!=null ? apiResponse.ReasonPhrase :apiResponse.StatusCode.ToString()
+                        };
 
+                }
             }
+
             catch (Exception ex)
             {
 

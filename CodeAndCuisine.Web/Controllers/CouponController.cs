@@ -23,19 +23,9 @@ namespace CodeAndCuisine.Web.Controllers
             var response = await _couponService.GetAllCouponsAsync();
 
             if (response != null && response.IsSuccess)
-            {
                 coupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(response.Result));
-
-            }
             else
-            {
-
-                return Error(new ErrorViewModel
-                {
-                    Message = response.Message
-                });
-
-            }
+                TempData["error"] = response.Message;
 
             return View(coupons);
         }
@@ -57,7 +47,13 @@ namespace CodeAndCuisine.Web.Controllers
                 model.CouponCode = model.CouponCode.ToUpper();
                 var responseDto = await _couponService.CreateCouponAsync(model);
                 if (responseDto != null && responseDto.IsSuccess)
+                {
+                    TempData["success"] = "Coupon created successfully";
                     return RedirectToAction("Index");
+                }
+
+                else
+                    TempData["error"] = responseDto.Message;
             }
 
             return View(model);
@@ -91,8 +87,15 @@ namespace CodeAndCuisine.Web.Controllers
                 model.CouponCode = model.CouponCode.ToUpper();
                 var responseDto = await _couponService.UpdateCouponAsync(model);
                 if (responseDto != null && responseDto.IsSuccess)
+                {
+                    TempData["success"] = "Coupon updated successfully";
                     return RedirectToAction("Index");
+                }
+
+                else
+                    TempData["error"] = responseDto.Message;
             }
+
 
             return View(model);
 
@@ -122,7 +125,13 @@ namespace CodeAndCuisine.Web.Controllers
         {
             var responseDto = await _couponService.DeleteCouponCouponAsync(couponDto.CouponId);
             if (responseDto != null && responseDto.IsSuccess)
+            {
+                TempData["success"] = "Coupon deleted successfully";
                 return RedirectToAction("Index");
+            }
+
+            else
+                TempData["error"] = responseDto.Message;
 
             return View();
         }
@@ -146,14 +155,6 @@ namespace CodeAndCuisine.Web.Controllers
         }
 
         #endregion
-
-
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error(ErrorViewModel errorViewModel)
-        {
-            return View(errorViewModel);
-        }
 
 
         private async Task<CouponDto> GetCoupon(int couponId)
