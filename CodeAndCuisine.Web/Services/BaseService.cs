@@ -1,6 +1,7 @@
 ﻿using CodeAndCuisine.Web.Models;
 using CodeAndCuisine.Web.Services.IService;
 using Newtonsoft.Json;
+using System;
 using System.Text;
 using static CodeAndCuisine.Web.Utility.StaticData;
 
@@ -29,10 +30,7 @@ namespace CodeAndCuisine.Web.Services
                 message.RequestUri = new Uri(requestDto.Url);
 
                 if (requestDto.Data != null)
-                {
-
                     message.Content = new StringContent(JsonConvert.SerializeObject(requestDto.Data), Encoding.UTF8, "application/json");
-                }
 
                 switch (requestDto.ApiType)
                 {
@@ -48,18 +46,19 @@ namespace CodeAndCuisine.Web.Services
                     default:
                         message.Method = HttpMethod.Get;
                         break;
-                        ;
                 }
 
                 apiResponse = await client.SendAsync(message);
 
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                apiResponseDto.StatusCode = apiResponse.StatusCode;
+                return apiResponseDto;
 
                 switch (apiResponse.StatusCode)
                 {
                     case System.Net.HttpStatusCode.OK:
                         {
-                            var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                            var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
                             return apiResponseDto;
                         }
                     case System.Net.HttpStatusCode.Unauthorized:
@@ -96,7 +95,7 @@ namespace CodeAndCuisine.Web.Services
                         return new ResponseDto
                         {
                             IsSuccess = false,
-                            Message = apiResponse.ReasonPhrase!=null ? apiResponse.ReasonPhrase :apiResponse.StatusCode.ToString()
+                            Message = apiResponse.ReasonPhrase != null ? apiResponse.ReasonPhrase : apiResponse.StatusCode.ToString()
                         };
 
                 }

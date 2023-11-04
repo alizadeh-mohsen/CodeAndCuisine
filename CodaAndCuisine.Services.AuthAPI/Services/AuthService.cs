@@ -69,12 +69,16 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                 var result = await _userManager.CreateAsync(applicationUser, registerRequestDto.Password);
                 if (result.Succeeded)
                 {
+
+                    var assignResult = await AssignRole(registerRequestDto.Username, registerRequestDto.Role);
+
                     var userToReturn = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == registerRequestDto.Username);
                     UserDto userDto = new UserDto
                     {
                         Email = registerRequestDto.Email,
                         Name = registerRequestDto.Name,
-                        Username = registerRequestDto.Username
+                        Username = registerRequestDto.Username,
+                        Role = registerRequestDto.Role
 
                     };
                     return userDto;

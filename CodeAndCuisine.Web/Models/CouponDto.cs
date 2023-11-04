@@ -1,4 +1,4 @@
-﻿namespace CodeAndCuisine.Web.Models.Dtos
+﻿namespace CodeAndCuisine.Web.Models
 {
     public class CouponDto
     {

@@ -1,4 +1,4 @@
-﻿namespace CodaAndCuisine.Services.AuthAPI.Data.Dtos
+﻿namespace CodeAndCuisine.Web.Models
 {
     public class UserDto
     {
@@ -6,7 +6,6 @@
         public string Name { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
-        public string Role{ get; set; }
 
     }
 }
