@@ -49,5 +49,20 @@ namespace CodaAndCuisine.Services.AuthAPI.Controllers
             _responseDto.Result = loginResponseDto;
             return Ok(_responseDto);
         }
+
+        [HttpPost("AssignRole")]
+        public async Task<IActionResult> AssignRole([FromBody] RegisterRequestDto model)
+        {
+            var assignRoleSuccessful = await _authService.AssignRole(model.Username, model.Role.ToUpper());
+            if (!assignRoleSuccessful)
+            {
+                _responseDto.IsSuccess = false;
+                _responseDto.Message = "Error encuontered";
+                return BadRequest(_responseDto);
+            }
+            _responseDto.IsSuccess = true;
+            _responseDto.Result = true;
+            return Ok(_responseDto);
+        }
     }
 }

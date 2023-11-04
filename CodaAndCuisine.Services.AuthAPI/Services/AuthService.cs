@@ -12,13 +12,17 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
         private readonly AuthDbContext _authDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(AuthDbContext authDbContext, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager
+            , IJwtTokenGenerator jwtTokenGenerator)
         {
             _authDbContext = authDbContext;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenGenerator = jwtTokenGenerator;
         }
+
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == loginRequestDto.Username);
@@ -35,6 +39,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
             {
                 return new LoginResponseDto { UserDto = null, Token = string.Empty };
             }
+            var token = _jwtTokenGenerator.GenerateToken(user);
             var result = new UserDto
             {
                 Email = user.Email,
@@ -45,7 +50,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
             return new LoginResponseDto
             {
                 UserDto = result,
-                Token = string.Empty
+                Token = token
             };
         }
 
@@ -67,7 +72,6 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                     var userToReturn = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == registerRequestDto.Username);
                     UserDto userDto = new UserDto
                     {
-                        Id = registerRequestDto.Id,
                         Email = registerRequestDto.Email,
                         Name = registerRequestDto.Name,
                         Username = registerRequestDto.Username
@@ -86,6 +90,18 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                 return null;
             }
         }
-    }
 
+        public async Task<bool> AssignRole(string username, string roleName)
+        {
+            var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == username);
+            if (user == null)
+                return false;
+
+            if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+                _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+
+            await _userManager.AddToRoleAsync(user, roleName);
+            return true;
+        }
+    }
 }
