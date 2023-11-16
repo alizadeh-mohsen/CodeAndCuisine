@@ -26,6 +26,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == loginRequestDto.Username);
+            
             if (user == null)
             {
                 return new LoginResponseDto
@@ -77,8 +78,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                     {
                         Email = registerRequestDto.Email,
                         Name = registerRequestDto.Name,
-                        Username = registerRequestDto.Username,
-                        Role = registerRequestDto.Role
+                        Username = registerRequestDto.Username
 
                     };
                     return userDto;
