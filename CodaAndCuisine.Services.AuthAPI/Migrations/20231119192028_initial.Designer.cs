@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodaAndCuisine.Services.AuthAPI.Migrations
 {
     [DbContext(typeof(AuthDbContext))]
-    [Migration("20231022120546_Identity")]
-    partial class Identity
+    [Migration("20231119192028_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

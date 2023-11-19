@@ -32,7 +32,7 @@ namespace CodeAndCuisine.Web.Services
                 if (witBearer)
                 {
                     var token = _tokenProviderService.GetToken();
-                    message.Headers.Add("Authorization", $"Bearer {token}");
+                    message.Headers.Add("Authorization", $" Bearer {token}");
 
                 }
 

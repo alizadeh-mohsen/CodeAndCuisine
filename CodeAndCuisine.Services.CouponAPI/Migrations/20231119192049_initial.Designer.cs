@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeAndCuisine.Services.CouponAPI.Migrations
 {
     [DbContext(typeof(CodeDbContext))]
-    [Migration("20231015203829_Initial")]
-    partial class Initial
+    [Migration("20231119192049_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

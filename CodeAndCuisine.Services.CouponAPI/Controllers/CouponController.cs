@@ -10,6 +10,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
+    [AllowAnonymous]
     public class CouponController : ControllerBase
     {
         private readonly CodeDbContext _codeDbContext;

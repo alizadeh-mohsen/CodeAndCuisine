@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeAndCuisine.Services.ProductsAPI.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20231119121539_addingProductAndSeed")]
-    partial class addingProductAndSeed
+    [Migration("20231119192101_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
