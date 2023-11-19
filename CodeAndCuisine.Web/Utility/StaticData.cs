@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace CodeAndCuisine.Web.Utility
+﻿namespace CodeAndCuisine.Web.Utility
 {
     public class StaticData
     {

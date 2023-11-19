@@ -1,8 +1,8 @@
-﻿    using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace CodeAndCuisine.Services.CouponAPI.Extensions
+namespace CodeAndCuisine.Services.ProductsAPI.Extensions
 {
     public static class WebApplicationBuilderExtensions
     {

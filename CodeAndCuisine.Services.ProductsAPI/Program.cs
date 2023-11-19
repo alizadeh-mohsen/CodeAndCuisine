@@ -1,31 +1,30 @@
 using AutoMapper;
-using CodeAndCuisine.Services.CouponAPI.Data;
-using CodeAndCuisine.Services.CouponAPI.Extensions;
-using CodeAndCuisine.Services.CouponAPI.Mapper;
+using CodeAndCuisine.Services.ProductsAPI.Data;
+using CodeAndCuisine.Services.ProductsAPI.Mapper;
 using Microsoft.EntityFrameworkCore;
+using CodeAndCuisine.Services.ProductsAPI.Controllers;
+using CodeAndCuisine.Services.ProductsAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<CodeDbContext>(option =>
+builder.Services.AddDbContext<ProductDbContext>(options =>
 {
-    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-}
-);
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 builder.AddAppAuthentication();
 builder.Services.AddAuthorization();
-
 
 var app = builder.Build();
 
@@ -35,23 +34,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-ApplyMigration();
+
 
 app.Run();
-
-
-void ApplyMigration()
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var _db = scope.ServiceProvider.GetRequiredService<CodeDbContext>();
-        if (_db.Database.GetPendingMigrations().Any())
-            _db.Database.Migrate();
-    }
-
-}

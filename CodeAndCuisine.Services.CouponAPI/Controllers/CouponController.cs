@@ -121,15 +121,12 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
 
         public ResponseDto Put([FromBody] Coupon couponDto)
         {
-
             try
             {
-
                 var coupon = _mapper.Map<Coupon>(couponDto);
 
                 _codeDbContext.Coupons.Update(coupon);
                 _codeDbContext.SaveChanges();
-
                 _responseDto.Result = _mapper.Map<CouponDto>(coupon);
             }
             catch (Exception ex)
