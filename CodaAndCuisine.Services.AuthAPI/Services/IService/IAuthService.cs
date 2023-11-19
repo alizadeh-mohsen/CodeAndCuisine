@@ -5,9 +5,9 @@ namespace CodaAndCuisine.Services.AuthAPI.Services.IService
 {
     public interface IAuthService
     {
-        Task<UserDto> Register(RegisterRequestDto registerRequestDto);
+        Task<ResponseDto> Register(RegisterRequestDto registerRequestDto);
         Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto);
-        Task<bool> AssignRole(string username, string roleName);
+        Task<ResponseDto> AssignRole(string username, string roleName);
 
     }
 }

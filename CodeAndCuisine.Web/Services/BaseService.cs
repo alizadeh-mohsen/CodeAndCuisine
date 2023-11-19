@@ -10,12 +10,14 @@ namespace CodeAndCuisine.Web.Services
     public class BaseService : IBaseService
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ITokenProviderService _tokenProviderService;
 
-        public BaseService(IHttpClientFactory httpClientFactory)
+        public BaseService(IHttpClientFactory httpClientFactory, ITokenProviderService tokenProviderService)
         {
             _httpClientFactory = httpClientFactory;
+            _tokenProviderService = tokenProviderService;
         }
-        public async Task<ResponseDto> SendAsync(RequestDto requestDto)
+        public async Task<ResponseDto> SendAsync(RequestDto requestDto, bool witBearer = true)
         {
             try
             {
@@ -26,6 +28,13 @@ namespace CodeAndCuisine.Web.Services
                 HttpResponseMessage apiResponse = null;
 
                 message.Headers.Add("Accept", "application/json");
+
+                if (witBearer)
+                {
+                    var token = _tokenProviderService.GetToken();
+                    message.Headers.Add("Authorization", $"Bearer {token}");
+
+                }
 
                 message.RequestUri = new Uri(requestDto.Url);
 
@@ -52,53 +61,14 @@ namespace CodeAndCuisine.Web.Services
 
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
                 var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
-                apiResponseDto.StatusCode = apiResponse.StatusCode;
-                return apiResponseDto;
-
-                switch (apiResponse.StatusCode)
+                if (apiResponseDto != null)
                 {
-                    case System.Net.HttpStatusCode.OK:
-                        {
-                            return apiResponseDto;
-                        }
-                    case System.Net.HttpStatusCode.Unauthorized:
-                        return new ResponseDto
-                        {
-                            IsSuccess = false,
-                            Message = "Unauthorized"
-                        };
-                    case System.Net.HttpStatusCode.Forbidden:
-                        return new ResponseDto
-                        {
-                            IsSuccess = false,
-                            Message = "Forbidden"
-                        };
-                    case System.Net.HttpStatusCode.NotFound:
-                        return new ResponseDto
-                        {
-                            IsSuccess = false,
-                            Message = "NotFound"
-                        };
-                    case System.Net.HttpStatusCode.InternalServerError:
-                        return new ResponseDto
-                        {
-                            IsSuccess = false,
-                            Message = "InternalServerError"
-                        };
-                    //case System.Net.HttpStatusCode.:
-                    //    return new ResponseDto
-                    //    {
-                    //        IsSuccess = false,
-                    //        Message = "InternalServerError"
-                    //    };
-                    default:
-                        return new ResponseDto
-                        {
-                            IsSuccess = false,
-                            Message = apiResponse.ReasonPhrase != null ? apiResponse.ReasonPhrase : apiResponse.StatusCode.ToString()
-                        };
-
+                    apiResponseDto.StatusCode = apiResponse.StatusCode;
+                    return apiResponseDto;
                 }
+
+                return new ResponseDto { IsSuccess = false, Message = string.IsNullOrEmpty(apiResponse.ReasonPhrase) ? apiResponse.ReasonPhrase : apiResponse.StatusCode.ToString() };
+
             }
 
             catch (Exception ex)

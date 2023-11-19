@@ -11,58 +11,42 @@ namespace CodaAndCuisine.Services.AuthAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        protected ResponseDto _responseDto;
 
         public AuthController(IAuthService authService)
         {
             _authService = authService;
-            _responseDto = new ResponseDto();
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequestDto model)
         {
-            var userDto = await _authService.Register(model);
-            if (userDto == null)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = "Not created";
-                return BadRequest(_responseDto);
-            }
-
-            _responseDto.IsSuccess = true;
-            _responseDto.Result = userDto;
-            return Ok(_responseDto);
+            var responseDto = await _authService.Register(model);
+            return Ok(responseDto);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto model)
         {
+            var responseDto = new ResponseDto();
             LoginResponseDto loginResponseDto = await _authService.Login(model);
             if (loginResponseDto.UserDto == null)
             {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = "Username or password is incorrect";
-                return BadRequest(_responseDto);
+
+                responseDto.IsSuccess = false;
+                responseDto.Message = "Username or password is incorrect";
+                return BadRequest(responseDto);
             }
-            _responseDto.IsSuccess = true;
-            _responseDto.Result = loginResponseDto;
-            return Ok(_responseDto);
+            responseDto.IsSuccess = true;
+            responseDto.Result = loginResponseDto;
+            return Ok(responseDto);
         }
 
         [HttpPost("AssignRole")]
         public async Task<IActionResult> AssignRole([FromBody] RegisterRequestDto model)
         {
-            var assignRoleSuccessful = await _authService.AssignRole(model.Username, model.Role.ToUpper());
-            if (!assignRoleSuccessful)
-            {
-                _responseDto.IsSuccess = false;
-                _responseDto.Message = "Error encuontered";
-                return BadRequest(_responseDto);
-            }
-            _responseDto.IsSuccess = true;
-            _responseDto.Result = true;
-            return Ok(_responseDto);
+            var responseDto = await _authService.AssignRole(model.Username, model.Role.ToUpper());
+
+            return Ok(responseDto);
         }
     }
 }

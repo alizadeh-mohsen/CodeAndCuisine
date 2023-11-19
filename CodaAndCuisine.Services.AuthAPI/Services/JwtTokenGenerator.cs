@@ -16,7 +16,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
         {
             _jwtOptions = jwtOptions.Value;
         }
-        public string GenerateToken(ApplicationUser applicationUser)
+        public string GenerateToken(ApplicationUser applicationUser, IList<string> roles)
         {
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
 
@@ -29,6 +29,8 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                 new Claim(JwtRegisteredClaimNames.Name,applicationUser.UserName),
                 new Claim(JwtRegisteredClaimNames.Email,applicationUser.Email)
             };
+
+            claimList.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             SecurityTokenDescriptor securityTokenDescriptor = new SecurityTokenDescriptor
             {

@@ -1,4 +1,6 @@
 ﻿
+using CodaAndCuisine.Services.AuthAPI.Data.Dtos;
+
 namespace CodeAndCuisine.Services.CouponAPI.Models.Dtos
 {
     public class ResponseDto

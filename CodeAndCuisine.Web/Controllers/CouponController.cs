@@ -22,11 +22,16 @@ namespace CodeAndCuisine.Web.Controllers
             var response = await _couponService.GetAllCouponsAsync();
 
             if (response != null && response.IsSuccess)
+            {
                 coupons = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(response.Result));
-            else
-                TempData["error"] = response.Message;
+                return View(coupons);
 
-            return View(coupons);
+            }
+
+            TempData["error"] = response.Message;
+            return RedirectToAction("Index","Home");
+
+
         }
 
         #region Create

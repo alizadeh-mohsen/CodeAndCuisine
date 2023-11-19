@@ -2,12 +2,14 @@ using AutoMapper;
 using CodeAndCuisine.Services.CouponAPI.Data;
 using CodeAndCuisine.Services.CouponAPI.Models;
 using CodeAndCuisine.Services.CouponAPI.Models.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeAndCuisine.Services.CouponAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class CouponController : ControllerBase
     {
         private readonly CodeDbContext _codeDbContext;
@@ -89,6 +91,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ResponseDto Post([FromBody] Coupon couponDto)
         {
 
@@ -114,6 +117,8 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
+
         public ResponseDto Put([FromBody] Coupon couponDto)
         {
 
@@ -139,6 +144,7 @@ namespace CodeAndCuisine.Services.CouponAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public ResponseDto Delete(int id)
         {
             try

@@ -26,7 +26,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == loginRequestDto.Username);
-            
+
             if (user == null)
             {
                 return new LoginResponseDto
@@ -40,7 +40,9 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
             {
                 return new LoginResponseDto { UserDto = null, Token = string.Empty };
             }
-            var token = _jwtTokenGenerator.GenerateToken(user);
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = _jwtTokenGenerator.GenerateToken(user, roles);
             var result = new UserDto
             {
                 Email = user.Email,
@@ -55,11 +57,10 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
             };
         }
 
-        public async Task<UserDto> Register(RegisterRequestDto registerRequestDto)
+        public async Task<ResponseDto> Register(RegisterRequestDto registerRequestDto)
         {
             try
             {
-
                 ApplicationUser applicationUser = new ApplicationUser
                 {
                     Email = registerRequestDto.Email,
@@ -81,31 +82,63 @@ namespace CodaAndCuisine.Services.AuthAPI.Services
                         Username = registerRequestDto.Username
 
                     };
-                    return userDto;
+                    return new ResponseDto
+                    {
+                        Result = userDto,
+                        IsSuccess = true
+                    };
                 }
                 else
                 {
-                    return null;
+                    var message = string.Empty;
+                    foreach (var error in result.Errors)
+                        message += error.Description + " ";
+                    return new ResponseDto
+                    {
+                        IsSuccess = false,
+                        Message = message.TrimEnd()
+
+                    };
                 }
             }
             catch (Exception ex)
             {
 
-                return null;
+                return new ResponseDto
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
             }
         }
 
-        public async Task<bool> AssignRole(string username, string roleName)
+        public async Task<ResponseDto> AssignRole(string username, string roleName)
         {
-            var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == username);
-            if (user == null)
-                return false;
+            try
+            {
+                var user = _authDbContext.ApplicationUsers.FirstOrDefault(u => u.UserName == username);
+                if (user == null)
+                    return new ResponseDto
+                    {
+                        IsSuccess = false,
+                        Message = "User not found"
+                    };
 
-            if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
-                _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+                if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+                    _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
 
-            await _userManager.AddToRoleAsync(user, roleName);
-            return true;
+                await _userManager.AddToRoleAsync(user, roleName);
+                return new ResponseDto { IsSuccess = true };
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+
+                };
+            }
         }
     }
 }

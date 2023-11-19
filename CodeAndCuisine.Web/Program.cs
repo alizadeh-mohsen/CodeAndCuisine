@@ -16,7 +16,6 @@ builder.Services.AddHttpClient<IAuthService, AuthService>();
 StaticData.CouponApiBase = builder.Configuration["ServiceUrls:CouponApi"];
 StaticData.AuthApiBase = builder.Configuration["ServiceUrls:AuthApi"];
 
-//builder.ServicesyAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ITokenProviderService, TokenProviderService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();

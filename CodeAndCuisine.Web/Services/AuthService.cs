@@ -18,11 +18,11 @@ namespace CodeAndCuisine.Web.Services
             var requestDto = new RequestDto
             {
                 ApiType = StaticData.ApiType.POST,
-                Url = StaticData.AuthApiBase+"/Login",
+                Url = StaticData.AuthApiBase + "/Login",
                 Data = loginRequestDto
             };
 
-            var result= await _baseService.SendAsync(requestDto);
+            var result = await _baseService.SendAsync(requestDto, false);
             return result;
         }
         public async Task<ResponseDto> RegisterAsync(RegisterRequestDto registerRequestDto)
@@ -30,7 +30,7 @@ namespace CodeAndCuisine.Web.Services
             var requestDto = new RequestDto
             {
                 ApiType = StaticData.ApiType.POST,
-                Url = StaticData.AuthApiBase+"/Register",
+                Url = StaticData.AuthApiBase + "/Register",
                 Data = registerRequestDto
             };
 
@@ -45,8 +45,8 @@ namespace CodeAndCuisine.Web.Services
                 Data = registerRequestDto
             };
 
-            return await _baseService.SendAsync(requestDto);
+            return await _baseService.SendAsync(requestDto, false);
         }
-       
+
     }
 }

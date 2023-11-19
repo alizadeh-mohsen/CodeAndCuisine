@@ -46,7 +46,8 @@ namespace CodeAndCuisine.Web.Controllers
 
                 else
                 {
-                    ModelState.AddModelError("CustomError", responseDto.Message);
+                    //ModelState.AddModelError("CustomError", responseDto.Message);
+                    TempData["error"] = responseDto.Message;
                     return View(model);
                 }
             }
@@ -64,12 +65,7 @@ namespace CodeAndCuisine.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Register()
         {
-            var RoleList = new List<SelectListItem>(){
-
-                new SelectListItem { Text = StaticData.Admin, Value = StaticData.Admin },
-                new SelectListItem { Text = StaticData.Customer, Value = StaticData.Customer }
-            };
-            ViewBag.RoleList = RoleList;
+            setRoles();
             return View();
         }
 
@@ -86,7 +82,11 @@ namespace CodeAndCuisine.Web.Controllers
                 }
 
                 else
+                {
                     TempData["error"] = responseDto.Message;
+                    setRoles();
+                }
+
             }
 
             return View(model);
@@ -109,6 +109,12 @@ namespace CodeAndCuisine.Web.Controllers
             identity.AddClaim(new Claim(JwtRegisteredClaimNames.Name,
             jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name).Value));
 
+            identity.AddClaim(new Claim(ClaimTypes.Name,
+            jwt.Claims.FirstOrDefault(u => u.Type == JwtRegisteredClaimNames.Name).Value));
+
+            identity.AddClaim(new Claim(ClaimTypes.Role,
+            jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
+
 
 
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity);
@@ -116,6 +122,17 @@ namespace CodeAndCuisine.Web.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
 
+        }
+
+        private void setRoles()
+        {
+
+            var RoleList = new List<SelectListItem>(){
+
+                new SelectListItem { Text = StaticData.Admin, Value = StaticData.Admin },
+                new SelectListItem { Text = StaticData.Customer, Value = StaticData.Customer }
+            };
+            ViewBag.RoleList = RoleList;
         }
     }
 }

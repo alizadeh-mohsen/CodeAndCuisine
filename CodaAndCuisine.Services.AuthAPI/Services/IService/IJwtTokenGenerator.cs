@@ -4,7 +4,7 @@ namespace CodaAndCuisine.Services.AuthAPI.Services.IService
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(ApplicationUser applicationUser);
+        string GenerateToken(ApplicationUser applicationUser, IList<string> roles);
 
     }
 }
