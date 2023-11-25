@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAndCuisine.Web", "CodeA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodaAndCuisine.Services.AuthAPI", "CodaAndCuisine.Services.AuthAPI\CodaAndCuisine.Services.AuthAPI.csproj", "{19D04873-ACF4-4AD1-A440-CC859E2C92C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeAndCuisine.Services.ProductsAPI", "CodeAndCuisine.Services.ProductsAPI\CodeAndCuisine.Services.ProductsAPI.csproj", "{003DE35D-0186-4F07-9BC1-0E17F7815476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeAndCuisine.Services.ProductsAPI", "CodeAndCuisine.Services.ProductsAPI\CodeAndCuisine.Services.ProductsAPI.csproj", "{003DE35D-0186-4F07-9BC1-0E17F7815476}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodaAndCuisine.Services.ShoppingCartAPI", "CodaAndCuisine.Services.ShoppingCardAPI\CodaAndCuisine.Services.ShoppingCartAPI.csproj", "{27342D9F-9810-47F6-80D3-C76B9CB0E74F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{003DE35D-0186-4F07-9BC1-0E17F7815476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{003DE35D-0186-4F07-9BC1-0E17F7815476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{003DE35D-0186-4F07-9BC1-0E17F7815476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27342D9F-9810-47F6-80D3-C76B9CB0E74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27342D9F-9810-47F6-80D3-C76B9CB0E74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27342D9F-9810-47F6-80D3-C76B9CB0E74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27342D9F-9810-47F6-80D3-C76B9CB0E74F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{08E53DCE-D9A1-4ED1-AB6E-88BB9ECF467A} = {E5517C0C-C56F-4B10-A483-33F163ACA974}
 		{19D04873-ACF4-4AD1-A440-CC859E2C92C3} = {25340C42-2304-4AC8-BC49-9CFD7EC897AF}
 		{003DE35D-0186-4F07-9BC1-0E17F7815476} = {25340C42-2304-4AC8-BC49-9CFD7EC897AF}
+		{27342D9F-9810-47F6-80D3-C76B9CB0E74F} = {25340C42-2304-4AC8-BC49-9CFD7EC897AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1449617F-68AB-4332-B16E-928FBF496C93}

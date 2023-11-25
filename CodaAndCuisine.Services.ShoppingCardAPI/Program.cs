@@ -1,12 +1,12 @@
 using AutoMapper;
-using CodeAndCuisine.Services.ProductsAPI.Data;
-using CodeAndCuisine.Services.ProductsAPI.Mapper;
+using CodeAndCuisine.Services.ShoppingCartAPI.Data;
+using CodeAndCuisine.Services.ShoppingCartAPI.Extensions;
+using CodeAndCuisine.Services.ShoppingCartAPI.Mapper;
 using Microsoft.EntityFrameworkCore;
-using CodeAndCuisine.Services.ProductsAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ProductDbContext>(options =>
+builder.Services.AddDbContext<ShoppingCartDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
