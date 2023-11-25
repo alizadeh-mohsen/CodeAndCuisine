@@ -10,7 +10,11 @@ namespace CodeAndCuisine.Services.ProductsAPI.Mapper
         {
             var mappingConfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<Product, ProductDto>().ReverseMap();
+                config.CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.Description,
+                    opt => opt.MapFrom(src => src.Description.Length > 50 ? src.Description.Substring(0, 50) : src.Description)
+                    );
+                config.CreateMap<ProductDto, Product>();
             });
             return mappingConfig;
         }

@@ -1,32 +1,48 @@
 ﻿using CodeAndCuisine.Web.Models;
+using CodeAndCuisine.Web.Services.IService;
+using Humanizer.Localisation.TimeToClockNotation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Newtonsoft.Json;
 
 namespace CodeAndCuisine.Web.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IProductService _productService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IProductService productService)
         {
             _logger = logger;
+            _productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<ProductDto> Products = new();
+            var response = await _productService.GetAllProductsAsync();
+
+            if (response != null && response.IsSuccess)
+                Products = JsonConvert.DeserializeObject<List<ProductDto>>(response.Result.ToString());
+            else
+                TempData["error"] = response.Message;
+
+            return View(Products);
         }
 
-        public IActionResult Privacy()
+        [Authorize]
+        public async Task<IActionResult> Details(int productId)
         {
-            return View();
-        }
+            var product = new ProductDto();
+            var response = await _productService.GetProductByIdAsync(productId);
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { Message = "" });
+            if (response != null && response.IsSuccess)
+                product = JsonConvert.DeserializeObject<ProductDto>(response.Result.ToString());
+            else
+                TempData["error"] = response.Message;
+            return View(product);
         }
     }
 }

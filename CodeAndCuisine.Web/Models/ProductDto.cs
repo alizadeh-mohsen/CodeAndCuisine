@@ -1,4 +1,6 @@
-﻿namespace CodeAndCuisine.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CodeAndCuisine.Web.Models
 {
     public class ProductDto
     {
@@ -8,5 +10,7 @@
         public string Description { get; set; }
         public string CategoryName { get; set; }
         public string ImageUrl { get; set; }
+        [Required]
+        public int Count { get; set; } = 1;
     }
 }
