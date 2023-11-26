@@ -11,8 +11,9 @@ namespace CodeAndCuisine.Services.ShoppingCartAPI.Mapper
         {
             var mappingConfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<ShoppingCart, ShoppingCartDto>().ReverseMap();
-               
+                config.CreateMap<CartHeader, CartHeaderDto>().ReverseMap();
+                config.CreateMap<CartDetail, CartDetailDto>().ReverseMap();
+
             });
             return mappingConfig;
         }

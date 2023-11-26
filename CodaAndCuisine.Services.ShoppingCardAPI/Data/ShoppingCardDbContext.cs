@@ -9,7 +9,8 @@ namespace CodeAndCuisine.Services.ShoppingCartAPI.Data
         {
         }
 
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<CartHeader> CartHeaders{ get; set; }
+        public DbSet<CartDetail> CartDetails{ get; set; }
 
     }
 }

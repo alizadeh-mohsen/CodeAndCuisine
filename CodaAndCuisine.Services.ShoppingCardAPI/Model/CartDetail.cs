@@ -8,14 +8,13 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Model
     {
         [Key]
         public int Id { get; set; }
-
+        public int Count { get; set; }
         public int CartHeaderId { get; set; }
-        [ForeignKey("Id ")]
         public CartHeader CartHeader { get; set; }
-
         public int ProductId { get; set; }
-        
         [NotMapped]
         public ProductDto Product { get; set; }
+
+
     }
 }
