@@ -14,7 +14,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Model
         public int Discount { get; set; }
 
         [NotMapped]
-        public int CartToal { get; set; }
+        public double CartToal { get; set; }
 
     }
 }

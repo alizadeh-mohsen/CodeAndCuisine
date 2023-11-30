@@ -8,7 +8,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Model
     {
         [Key]
         public int Id { get; set; }
-        public int Count { get; set; }
+        public int Quantity { get; set; }
         public int CartHeaderId { get; set; }
         public CartHeader CartHeader { get; set; }
         public int ProductId { get; set; }

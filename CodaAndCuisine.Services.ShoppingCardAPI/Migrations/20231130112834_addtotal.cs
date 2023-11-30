@@ -5,7 +5,7 @@
 namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class inityial : Migration
+    public partial class addtotal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Count = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
                     CartHeaderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },

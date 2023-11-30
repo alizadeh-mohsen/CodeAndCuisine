@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20231126130631_inityial")]
-    partial class inityial
+    [Migration("20231130112834_addtotal")]
+    partial class addtotal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,10 +35,10 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
                     b.Property<int>("CartHeaderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

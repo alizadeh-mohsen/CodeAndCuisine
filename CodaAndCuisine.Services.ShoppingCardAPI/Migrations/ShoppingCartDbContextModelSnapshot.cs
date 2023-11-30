@@ -32,10 +32,10 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
                     b.Property<int>("CartHeaderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

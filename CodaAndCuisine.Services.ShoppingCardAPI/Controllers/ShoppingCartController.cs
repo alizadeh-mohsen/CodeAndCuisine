@@ -27,6 +27,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
             };
 
         }
+       
         [HttpPost("CartUpsert")]
         public async Task<ResponseDto> CardUpsert(ShoppingCartDto shoppingCartDto)
         {
@@ -38,7 +39,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
                         IsSuccess = false,
                         Message = "User not found"
                     };
-
+                
                 var cartFromDb = await _context.CartHeaders.AsNoTracking()
                     .FirstOrDefaultAsync(c => c.UserId == shoppingCartDto.CartHeader.UserId);
                 if (cartFromDb == null)
@@ -66,10 +67,8 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
                     }
                     else
                     {
-                        shoppingCartDto.CartDetails.First().Count += detailFromDb.Count;
-                        shoppingCartDto.CartDetails.First().CartHeaderId = detailFromDb.CartHeaderId;
-                        shoppingCartDto.CartDetails.First().Id = detailFromDb.Id;
-                        _context.CartDetails.Update(_mapper.Map<CartDetail>(shoppingCartDto.CartDetails.First()));
+                        detailFromDb.Quantity += shoppingCartDto.CartDetails.First().Quantity;
+                        _context.CartDetails.Update(detailFromDb);
                         await _context.SaveChangesAsync();
                     }
                 }
