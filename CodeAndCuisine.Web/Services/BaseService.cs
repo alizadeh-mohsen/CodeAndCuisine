@@ -17,19 +17,19 @@ namespace CodeAndCuisine.Web.Services
             _httpClientFactory = httpClientFactory;
             _tokenProviderService = tokenProviderService;
         }
-        public async Task<ResponseDto> SendAsync(RequestDto requestDto, bool witBearer = true)
+        public async Task<ResponseDto> SendAsync(RequestDto requestDto, bool withBearer = true)
         {
             try
             {
 
-                HttpClient client = _httpClientFactory.CreateClient();
+                HttpClient client = _httpClientFactory.CreateClient("FrontApi");
 
                 var message = new HttpRequestMessage();
                 HttpResponseMessage apiResponse = null;
 
                 message.Headers.Add("Accept", "application/json");
 
-                if (witBearer)
+                if (withBearer)
                 {
                     var token = _tokenProviderService.GetToken();
                     message.Headers.Add("Authorization", $" Bearer {token}");

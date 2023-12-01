@@ -9,12 +9,12 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Model
         public int Id { get; set; }
         public string UserId { get; set; }
         public string CouponCode { get; set; }
-        
-        [NotMapped]
-        public int Discount { get; set; }
 
         [NotMapped]
-        public double CartToal { get; set; }
+        public double Discount { get; set; }
+
+        [NotMapped]
+        public double CartTotal { get; set; }
 
     }
 }
