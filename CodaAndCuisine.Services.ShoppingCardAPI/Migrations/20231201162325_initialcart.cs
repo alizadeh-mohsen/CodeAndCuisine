@@ -5,7 +5,7 @@
 namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class addtotal : Migration
+    public partial class initialcart : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CouponCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

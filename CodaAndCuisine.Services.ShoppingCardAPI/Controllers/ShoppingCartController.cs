@@ -11,7 +11,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ShoppingCartController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -108,7 +108,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
                     }
                     else
                     {
-                        detailFromDb.Quantity = shoppingCartDto.CartDetails.First().Quantity;
+                        detailFromDb.Quantity += shoppingCartDto.CartDetails.First().Quantity;
                         _context.CartDetails.Update(detailFromDb);
                         await _context.SaveChangesAsync();
                     }

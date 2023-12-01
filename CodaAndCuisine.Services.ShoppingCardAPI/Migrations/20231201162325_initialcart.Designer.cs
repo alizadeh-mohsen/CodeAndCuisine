@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
 {
     [DbContext(typeof(ShoppingCartDbContext))]
-    [Migration("20231130112834_addtotal")]
-    partial class addtotal
+    [Migration("20231201162325_initialcart")]
+    partial class initialcart
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,6 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CouponCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
