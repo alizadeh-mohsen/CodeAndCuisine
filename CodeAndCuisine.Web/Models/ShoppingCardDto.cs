@@ -1,4 +1,4 @@
-﻿namespace CodaAndCuisine.Services.ShoppingCartAPI.Model.Dto
+﻿namespace CodeAndCuisine.Web.Models
 {
     public class ShoppingCartDto
     {

@@ -8,6 +8,7 @@
         public static string CouponApiBase { get; set; }
         public static string AuthApiBase { get; set; }
         public static string ProductApiBase { get; set; }
+        public static string CartApiBase { get; set; }
 
         public enum ApiType
         {

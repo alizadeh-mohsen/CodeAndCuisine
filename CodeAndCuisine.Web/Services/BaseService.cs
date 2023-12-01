@@ -22,7 +22,7 @@ namespace CodeAndCuisine.Web.Services
             try
             {
 
-                HttpClient client = _httpClientFactory.CreateClient("FrontApi");
+                HttpClient client = _httpClientFactory.CreateClient();
 
                 var message = new HttpRequestMessage();
                 HttpResponseMessage apiResponse = null;
@@ -57,14 +57,16 @@ namespace CodeAndCuisine.Web.Services
                         break;
                 }
 
-                apiResponse = await client.SendAsync(message);
-
-                var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
-                if (apiResponseDto != null)
+                 apiResponse = await client.SendAsync(message);
+                if (apiResponse != null && apiResponse.IsSuccessStatusCode)
                 {
-                    apiResponseDto.StatusCode = apiResponse.StatusCode;
-                    return apiResponseDto;
+                    var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                    var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
+                    if (apiResponseDto != null)
+                    {
+                        apiResponseDto.StatusCode = apiResponse.StatusCode;
+                        return apiResponseDto;
+                    }
                 }
 
                 return new ResponseDto { IsSuccess = false, Message = string.IsNullOrEmpty(apiResponse.ReasonPhrase) ? apiResponse.ReasonPhrase : apiResponse.StatusCode.ToString() };

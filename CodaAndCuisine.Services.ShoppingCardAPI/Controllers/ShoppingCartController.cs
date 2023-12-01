@@ -1,10 +1,9 @@
 using AutoMapper;
 using CodaAndCuisine.Services.ShoppingCartAPI.Model;
 using CodaAndCuisine.Services.ShoppingCartAPI.Model.Dto;
-using CodaAndCuisine.Services.ShoppingCartAPI.Service;
 using CodaAndCuisine.Services.ShoppingCartAPI.Service.IService;
 using CodeAndCuisine.Services.ShoppingCartAPI.Data;
-using CodeAndCuisine.Services.ShoppingCartAPI.Model.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +11,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize]
     public class ShoppingCartController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -35,7 +35,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
 
         }
 
-        [HttpGet("GetCart/userId")]
+        [HttpGet("GetCart/{userId}")]
         public async Task<ResponseDto> GetShoppingCart(string userId)
         {
             var cartHeader = _context.CartHeaders.FirstOrDefault(c => c.UserId == userId);
@@ -69,7 +69,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
             return _responseDto;
         }
 
-        [HttpPost("upsert")]
+        [HttpPost("Upsert")]
         public async Task<ResponseDto> CardUpsert(ShoppingCartDto shoppingCartDto)
         {
             try
@@ -125,8 +125,8 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
             return _responseDto;
         }
 
-        [HttpPost("remove")]
-        public async Task<ResponseDto> Remove([FromBody] int detailId)
+        [HttpPost("Remove")]
+        public async Task<ResponseDto> RemoveItem([FromBody] int detailId)
         {
             try
             {
@@ -163,7 +163,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Controllers
             return _responseDto;
         }
 
-        [HttpPost("applyCoupon")]
+        [HttpPost("ApplyCoupon")]
         public async Task<ResponseDto> ApplyCoupon([FromBody] ShoppingCartDto shoppingCartDto)
         {
             try

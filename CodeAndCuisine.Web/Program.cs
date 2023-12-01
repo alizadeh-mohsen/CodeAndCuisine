@@ -8,20 +8,24 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor(); //neede when working with cookies
-builder.Services.AddHttpClient("FrontApi");
-
+builder.Services.AddHttpClient();
+builder.Services.AddHttpClient<IProductService, ProductService>();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
+builder.Services.AddHttpClient<ICartService, CartService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 
 StaticData.AuthApiBase = builder.Configuration["ServiceUrls:AuthApi"];
 StaticData.CouponApiBase = builder.Configuration["ServiceUrls:CouponApi"];
 StaticData.ProductApiBase = builder.Configuration["ServiceUrls:ProductApi"];
+StaticData.CartApiBase = builder.Configuration["ServiceUrls:CartApi"];
 
 builder.Services.AddScoped<ITokenProviderService, TokenProviderService>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICartService, CartService>();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

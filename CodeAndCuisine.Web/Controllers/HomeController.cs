@@ -1,10 +1,9 @@
 ﻿using CodeAndCuisine.Web.Models;
 using CodeAndCuisine.Web.Services.IService;
-using Humanizer.Localisation.TimeToClockNotation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CodeAndCuisine.Web.Controllers
 {
@@ -12,11 +11,13 @@ namespace CodeAndCuisine.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IProductService _productService;
+        private readonly ICartService _cartService;
 
-        public HomeController(ILogger<HomeController> logger, IProductService productService)
+        public HomeController(ILogger<HomeController> logger, IProductService productService, ICartService cartService)
         {
             _logger = logger;
             _productService = productService;
+            _cartService = cartService;
         }
 
         public async Task<IActionResult> Index()
@@ -43,6 +44,47 @@ namespace CodeAndCuisine.Web.Controllers
             else
                 TempData["error"] = response.Message;
             return View(product);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> details(ProductDto productDto)
+        {
+            var cartDto = new ShoppingCartDto
+            {
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.Where(c => c.Type == IdentityModel.JwtClaimTypes.Subject)?.FirstOrDefault().Value,
+                },
+
+            };
+            var cartDetails = new CartDetailDto
+            {
+                ProductId = productDto.ProductId,
+                Quantity = productDto.Count
+            };
+
+            List<CartDetailDto> cartDetailDtos = new List<CartDetailDto>
+            {
+                cartDetails
+            };
+            cartDto.CartDetails = cartDetailDtos;
+
+            var response = await _cartService.CardUpsert(cartDto);
+
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Item added to shopping cart";
+
+                return RedirectToAction("Index");
+            }
+
+            else
+            {
+                TempData["error"] = response.Message;
+                return RedirectToAction("Index", "Error", response.Message);
+            }
         }
     }
 }

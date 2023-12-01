@@ -8,7 +8,7 @@ namespace CodaAndCuisine.Services.ShoppingCartAPI.Model
         [Key]
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string CouponCode { get; set; }
+        public string? CouponCode { get; set; }
 
         [NotMapped]
         public double Discount { get; set; }
