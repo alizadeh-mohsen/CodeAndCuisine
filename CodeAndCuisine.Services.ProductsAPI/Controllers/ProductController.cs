@@ -10,6 +10,7 @@ namespace CodeAndCuisine.Services.ProductsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly ProductDbContext _dbContext;

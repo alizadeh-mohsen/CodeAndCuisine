@@ -23,6 +23,50 @@ namespace CodeAndCuisine.Web.Controllers
             return View(await LoadCartDtoBasedOnLoggedInuser());
         }
 
+
+        [HttpPost]
+        public async Task<IActionResult> Remove(int detaiId)
+        {
+            ResponseDto responseDto = await _cartService.RemoveItem(detaiId);
+            if (responseDto != null && responseDto.IsSuccess)
+            {
+                TempData["success"] = "Cart updated successfully";
+                RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApplyCoupon(ShoppingCartDto shoppingCartDto)
+        {
+            if (shoppingCartDto.CartHeader.CouponCode == null)
+                return View();
+
+            ResponseDto responseDto = await _cartService.ApplyCoupon(shoppingCartDto);
+            if (responseDto != null && responseDto.IsSuccess)
+            {
+                TempData["success"] = "Coupon accepted";
+                return RedirectToAction("Index");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveCoupon(ShoppingCartDto shoppingCartDto)
+        {
+            shoppingCartDto.CartHeader.CouponCode = string.Empty;
+            ResponseDto responseDto = await _cartService.ApplyCoupon(shoppingCartDto);
+            if (responseDto != null && responseDto.IsSuccess)
+            {
+                TempData["success"] = "Coupon accepted";
+                RedirectToAction("Index");
+            }
+            return View();
+
+        }
+
         private async Task<ShoppingCartDto> LoadCartDtoBasedOnLoggedInuser()
         {
             string userId = User.Claims.Where(u => u.Type == JwtRegisteredClaimNames.Sub)?.FirstOrDefault()?.Value;
