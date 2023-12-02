@@ -31,9 +31,10 @@ namespace CodeAndCuisine.Web.Controllers
             if (responseDto != null && responseDto.IsSuccess)
             {
                 TempData["success"] = "Cart updated successfully";
-                RedirectToAction("Index");
+
             }
-            return View();
+            return RedirectToAction("Index");
+
 
         }
 
@@ -45,12 +46,11 @@ namespace CodeAndCuisine.Web.Controllers
 
             ResponseDto responseDto = await _cartService.ApplyCoupon(shoppingCartDto);
             if (responseDto != null && responseDto.IsSuccess)
-            {
                 TempData["success"] = "Coupon accepted";
-                return RedirectToAction("Index");
-            }
 
-            return View();
+            return RedirectToAction("Index");
+
+
         }
 
         [HttpPost]
@@ -59,11 +59,10 @@ namespace CodeAndCuisine.Web.Controllers
             shoppingCartDto.CartHeader.CouponCode = string.Empty;
             ResponseDto responseDto = await _cartService.ApplyCoupon(shoppingCartDto);
             if (responseDto != null && responseDto.IsSuccess)
-            {
+
                 TempData["success"] = "Coupon accepted";
-                RedirectToAction("Index");
-            }
-            return View();
+            return RedirectToAction("Index");
+
 
         }
 

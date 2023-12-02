@@ -1,11 +1,11 @@
 using AutoMapper;
+using CodaAndCuisine.Services.ShoppingCartAPI.ClientMiddlewares;
 using CodaAndCuisine.Services.ShoppingCartAPI.Service;
 using CodaAndCuisine.Services.ShoppingCartAPI.Service.IService;
 using CodeAndCuisine.Services.ShoppingCartAPI.Data;
 using CodeAndCuisine.Services.ShoppingCartAPI.Extensions;
 using CodeAndCuisine.Services.ShoppingCartAPI.Mapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +18,20 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<TokenDelegtaingHandler>();
 
 // Add services to the container.
 builder.Services.AddHttpClient("Product", u => u.BaseAddress = new Uri(
     builder.Configuration["ServiceUrls:ProductApi"]
-    ));
+    )).AddHttpMessageHandler<TokenDelegtaingHandler>();
 
 builder.Services.AddHttpClient("Coupon", u => u.BaseAddress = new Uri(
     builder.Configuration["ServiceUrls:CouponApi"]
-    ));
+    )).AddHttpMessageHandler<TokenDelegtaingHandler>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICouponService, CouponService>();    
+builder.Services.AddScoped<ICouponService, CouponService>();
 
 builder.Services.AddControllers();
 

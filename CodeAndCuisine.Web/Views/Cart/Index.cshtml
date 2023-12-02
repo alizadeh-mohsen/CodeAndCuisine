@@ -60,23 +60,24 @@
                 <div class="row">
                     <div class="col-6">
                         <span>Coupon:</span>
-                       
+
                         @if (Model.CartHeader.Discount > 0)
                         {
                             <input asp-for="CartHeader.CouponCode" disabled />
-                            <button type="submit" class="btn btn-sm btn-danger" asp-action="RemoveCoupon"> Remove coupon </button>
+                            <button type="submit" class="btn btn-sm btn-danger" asp-controller="Cart" asp-action="RemoveCoupon"> Remove coupon </button>
                         }
                         else
                         {
                             <input asp-for="CartHeader.CouponCode" />
-                            <button type="submit" class="btn btn-sm btn-success" asp-action="ApplyCoupon"> Apply coupon</button>
+                            <button type="submit" class="btn btn-sm btn-success" asp-controller="Cart" asp-action="ApplyCoupon"> Apply coupon</button>
                         }
                     </div>
                     <div class="col-6 text-end">
                         <span class="text-danger" style="font-size:21px;">  Order Total : @Model.CartHeader.CartTotal.ToString("C") <br /></span>
                         @if (Model.CartHeader.Discount > 0)
                         {
-                            <span class="text-success"> Order Discount :  @Model.CartHeader.Discount.ToString("c")
+                            <span class="text-success">
+                                Order Discount :  @Model.CartHeader.Discount.ToString("c")
                             </span>
                         }
 
