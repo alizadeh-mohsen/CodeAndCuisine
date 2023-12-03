@@ -25,9 +25,9 @@ namespace CodeAndCuisine.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Remove(int detaiId)
+        public async Task<IActionResult> Delete(int detailId)
         {
-            ResponseDto responseDto = await _cartService.RemoveItem(detaiId);
+            ResponseDto responseDto = await _cartService.RemoveItem(detailId);
             if (responseDto != null && responseDto.IsSuccess)
             {
                 TempData["success"] = "Cart updated successfully";
